@@ -1,4 +1,5 @@
 import { BaseSceneMediator } from './BaseSceneMediator';
+import { Facade } from '../../../mvc/Facade';
 
 export class PreloadSceneMediator extends BaseSceneMediator {
   static NAME: string = `PreloadSceneMediator`;
@@ -7,10 +8,7 @@ export class PreloadSceneMediator extends BaseSceneMediator {
     super();
   }
 
-  public onRegister(): void {
-    super.onRegister();
-    console.warn(this.facade);
-
-    this.facade.sendNotification('eka');
+  public onRegister(facade: Facade): void {
+    super.onRegister(facade);
   }
 }

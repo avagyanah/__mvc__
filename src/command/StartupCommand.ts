@@ -1,6 +1,5 @@
-import { Facade } from '../mvc/Facade';
+import { Facade } from '../../mvc/Facade';
 
-export function StartupCommand(
-  facade: Facade,
-  notificationName: string,
-): void {}
+export function StartupCommand(facade: Facade, notificationName: string): void {
+  // ...
+}

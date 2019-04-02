@@ -9,7 +9,7 @@ import { IGame, IGameConfig, ISceneManager } from './constants/Types';
 import ScaleManager from './utils/ScaleManager';
 import { PreloadScene } from './view/scenes/PreloadScene';
 import SceneManager from './view/scenes/SceneManager';
-import { TTTFacade } from './TTTFacade';
+import { GameFacade } from './GameFacade';
 
 export class TTTGame extends PIXI.Application implements IGame {
   public config: IGameConfig = gameConfig;
@@ -20,11 +20,7 @@ export class TTTGame extends PIXI.Application implements IGame {
     super(config);
     this.config = config;
     //
-    const a = new TTTFacade().initialize();
-    // const b = new TTTFacade();
-    console.warn(a);
-    // console.warn(b);
-
+    GameFacade.Instance.initialize();
     //
     this.prepareView();
     this.prepareScenes();
