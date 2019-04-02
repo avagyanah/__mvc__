@@ -5,7 +5,12 @@ export class PreloadSceneMediator extends BaseSceneMediator {
 
   constructor() {
     super();
-    //@ts-ignore
-    // console.warn(this.facade);
+  }
+
+  public onRegister(): void {
+    super.onRegister();
+    console.warn(this.facade);
+
+    this.facade.sendNotification('eka');
   }
 }

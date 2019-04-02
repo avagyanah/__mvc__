@@ -1,8 +1,6 @@
-import { TTTFacade } from '../TTTFacade';
+import { Facade } from '../mvc/Facade';
 
 export function StartupCommand(
-  facade: TTTFacade,
+  facade: Facade,
   notificationName: string,
-): void {
-  console.warn(facade, notificationName);
-}
+): void {}

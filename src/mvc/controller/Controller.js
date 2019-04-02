@@ -1,5 +1,4 @@
-const { SimpleMap } = require('./utils/SimpleMap');
-
+const { SimpleMap } = require('../utils/SimpleMap');
 function Controller(facade) {
   this.commandsMap = new SimpleMap();
   this.facade = facade;

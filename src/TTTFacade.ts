@@ -3,7 +3,7 @@ import { Facade } from './mvc/Facade';
 import { PreloadSceneMediator } from './view/scenes/PreloadSceneMediator';
 
 export class TTTFacade extends Facade {
-  static NAME: string = `GameFacade`;
+  static NAME: string = `TTTFacade`;
   static STARTUP: string = `${TTTFacade.NAME}Startup`;
 
   public initialize(): void {
@@ -18,12 +18,12 @@ export class TTTFacade extends Facade {
   protected initializeController(): void {
     super.initializeController();
 
-    this.registerCommand(TTTFacade.STARTUP, StartupCommand);
+    this.controller.registerCommand(TTTFacade.STARTUP, StartupCommand);
   }
 
   protected initializeView(): void {
     super.initializeView();
 
-    this.registerStaticMediator(PreloadSceneMediator);
+    this.view.registerStaticMediator(PreloadSceneMediator);
   }
 }

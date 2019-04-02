@@ -3,14 +3,13 @@
 /// <reference path="../typings/pixi.js.d.ts" />
 // tslint:disable-next-line
 import * as PIXI from 'pixi.js';
-import { GAME_SCENE, PRELOAD_SCENE } from './constants/Constants';
+import { PRELOAD_SCENE } from './constants/Constants';
 import { gameConfig } from './constants/GameConfig';
 import { IGame, IGameConfig, ISceneManager } from './constants/Types';
 import ScaleManager from './utils/ScaleManager';
 import { PreloadScene } from './view/scenes/PreloadScene';
 import SceneManager from './view/scenes/SceneManager';
 import { TTTFacade } from './TTTFacade';
-import { Facade } from './mvc/Facade';
 
 export class TTTGame extends PIXI.Application implements IGame {
   public config: IGameConfig = gameConfig;
@@ -21,7 +20,10 @@ export class TTTGame extends PIXI.Application implements IGame {
     super(config);
     this.config = config;
     //
-    TTTFacade.getInstance().initialize();
+    const a = new TTTFacade().initialize();
+    // const b = new TTTFacade();
+    console.warn(a);
+    // console.warn(b);
 
     //
     this.prepareView();
