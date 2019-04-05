@@ -7,6 +7,10 @@ export default class SceneManager implements ISceneManager {
     this.scenesMap.set(key, new scene(this.game));
   }
 
+  public get(key: string): IScene {
+    return this.scenesMap.get(key);
+  }
+
   public start(key: string): void {
     this.scenesMap.get(key).create();
   }

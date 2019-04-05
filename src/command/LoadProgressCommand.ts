@@ -1,9 +1,9 @@
-// import { TTTFacade } from '../TTTFacade';
+import { Facade } from '../../mvc/Facade';
 
-// export function LoadProgressCommand(
-//   facade: TTTFacade,
-//   notificationName: string,
-//   body: object,
-// ): void {
-//   console.warn(`LoadProgressCommand`);
-// }
+export function LoadProgressCommand(
+  facade: Facade,
+  notification: string,
+  progress: number,
+): void {
+  console.warn(`LOAD PROGRESS | ${progress}`);
+}

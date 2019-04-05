@@ -3,13 +3,19 @@ import { SimpleMap } from '../utils/SimpleMap';
 
 export class Controller {
   private __commandsMap: SimpleMap<string, ICommand>;
+  private __facade: Facade;
 
-  constructor(private __facade: Facade) {
+  constructor(facade: Facade) {
+    this.__facade = facade;
     this.__commandsMap = new SimpleMap();
   }
 
   public registerCommand(key: string, command: ICommand): void {
     this.__commandsMap.set(key, command);
+  }
+
+  public removeCommand(key: string): void {
+    this.__commandsMap.delete(key);
   }
 
   public executeCommand(key: string, ...args: any[]): void {
@@ -19,5 +25,5 @@ export class Controller {
 }
 
 export interface ICommand {
-  (facade: Facade, notificationName: string, ...args: any[]): void;
+  (facade: Facade, notification: string, ...args: any[]): void;
 }

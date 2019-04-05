@@ -8,4 +8,11 @@ export class SimpleMap<K, V> {
     // @ts-ignore
     return this[key];
   }
+
+  public delete(key: K): void {
+    // @ts-ignore
+    this[key] = null;
+    // @ts-ignore
+    delete this[key];
+  }
 }

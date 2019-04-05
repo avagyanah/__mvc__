@@ -7,19 +7,19 @@ export let GENERAL_ASSETS: PIXI.loaders.TextureDictionary;
 export class PreloadScene extends BaseScene {
   static NAME = `PreloadScene`;
 
-  // static LOAD_PROGRESS_EVENT: string = `${
-  //   PreloadScene.NAME
-  // }load-progress-event`;
-  // static LOAD_PROGRESS_NOTIFICATION: string = `${
-  //   PreloadScene.NAME
-  // }LoadProgress`;
+  static LOAD_PROGRESS_EVENT: string = `${
+    PreloadScene.NAME
+  }load-progress-event`;
+  static LOAD_PROGRESS_NOTIFICATION: string = `${
+    PreloadScene.NAME
+  }LoadProgress`;
 
-  // static LOAD_COMPLETE_EVENT: string = `${
-  //   PreloadScene.NAME
-  // }load-complete-event`;
-  // static LOAD_COMPLETE_NOTIFICATION: string = `${
-  //   PreloadScene.NAME
-  // }LoadComplete`;
+  static LOAD_COMPLETE_EVENT: string = `${
+    PreloadScene.NAME
+  }load-complete-event`;
+  static LOAD_COMPLETE_NOTIFICATION: string = `${
+    PreloadScene.NAME
+  }LoadComplete`;
 
   constructor(game: IGame) {
     super(game);
@@ -52,13 +52,13 @@ export class PreloadScene extends BaseScene {
     loader: PIXI.loaders.Loader,
     resource: PIXI.loaders.Resource,
   ): void {
-    // this.emit(PreloadScene.LOAD_PROGRESS_EVENT, loader.progress);
+    this.emit(PreloadScene.LOAD_PROGRESS_EVENT, loader.progress);
   }
 
   private onInitialAssetsLoadComplete(loader: PIXI.loaders.Loader): void {
     this.initializeAtlasKeys();
 
-    // this.emit(PreloadScene.LOAD_COMPLETE_EVENT);
+    this.emit(PreloadScene.LOAD_COMPLETE_EVENT);
   }
 
   private initializeAtlasKeys(): void {

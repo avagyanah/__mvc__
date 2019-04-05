@@ -13,21 +13,30 @@ export class Facade {
     return this._instance || (this._instance = new this());
   }
 
-  public sendNotification(notificationName: string, ...args: any[]) {
-    this.__controller.executeCommand(notificationName, ...args);
+  public sendNotification(notification: string, ...args: any[]) {
+    this.__controller.executeCommand(notification, ...args);
+    this.__view.handleNotification(notification, ...args);
   }
 
   public registerCommand(key: string, command: ICommand): void {
     return this.__controller.registerCommand(key, command);
   }
 
-  public registerStaticMediator(key: string, mediator: StaticMediator): void {
-    return this.__view.registerStaticMediator(key, mediator);
+  public removeCommand(key: string): void {
+    return this.__controller.removeCommand(key);
+  }
+
+  public registerStaticMediator(mediator: new () => StaticMediator<any>): void {
+    return this.__view.registerStaticMediator(mediator);
+  }
+
+  public removeStaticMediator(key: string): void {
+    return this.__view.removeStaticMediator(key);
   }
 
   public initialize() {
-    this.initializeModel();
     this.initializeController();
+    this.initializeModel();
     this.initializeView();
   }
 

@@ -1,6 +1,9 @@
 import { Facade } from '../mvc/Facade';
 import { StartupCommand } from './command/StartupCommand';
 import { PreloadSceneMediator } from './view/scenes/PreloadSceneMediator';
+import { PreloadScene } from './view/scenes/PreloadScene';
+import { LoadProgressCommand } from './command/LoadProgressCommand';
+import { LoadCompleteCommand } from './command/LoadCompleteCommand';
 
 export class GameFacade extends Facade {
   static NAME: string = `GameFacade`;
@@ -20,14 +23,22 @@ export class GameFacade extends Facade {
     super.initializeController();
 
     this.registerCommand(GameFacade.STARTUP, StartupCommand);
+    this.registerCommand(
+      PreloadScene.LOAD_PROGRESS_NOTIFICATION,
+      LoadProgressCommand,
+    );
+    this.registerCommand(
+      PreloadScene.LOAD_COMPLETE_NOTIFICATION,
+      LoadCompleteCommand,
+    );
   }
 
   protected initializeView() {
     super.initializeView();
 
-    this.registerStaticMediator(
-      PreloadSceneMediator.NAME,
-      new PreloadSceneMediator(),
-    );
+    this.registerStaticMediator(PreloadSceneMediator);
+    setTimeout(() => {
+      this.removeStaticMediator(PreloadSceneMediator.NAME);
+    }, 2000);
   }
 }

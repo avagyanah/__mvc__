@@ -25,6 +25,7 @@ export interface ISceneManager {
   destroy: (key: string) => void;
   wake: (key: string) => void;
   sleep: (key: string) => void;
+  get: (key: string) => IScene;
 }
 //
 export interface IGameConfig {

@@ -3,7 +3,6 @@
 /// <reference path="../typings/pixi.js.d.ts" />
 // tslint:disable-next-line
 import * as PIXI from 'pixi.js';
-import { PRELOAD_SCENE } from './constants/Constants';
 import { gameConfig } from './constants/GameConfig';
 import { IGame, IGameConfig, ISceneManager } from './constants/Types';
 import ScaleManager from './utils/ScaleManager';
@@ -20,16 +19,14 @@ export class TTTGame extends PIXI.Application implements IGame {
     super(config);
     this.config = config;
     //
-    GameFacade.Instance.initialize();
-    //
     this.prepareView();
     this.prepareScenes();
   }
 
   private prepareScenes(): void {
     this.sceneManager = new SceneManager(this);
-    this.sceneManager.add(PRELOAD_SCENE, PreloadScene);
-    this.sceneManager.start(PRELOAD_SCENE);
+    this.sceneManager.add(PreloadScene.NAME, PreloadScene);
+    this.sceneManager.start(PreloadScene.NAME);
   }
 
   private prepareView(): void {
@@ -45,5 +42,6 @@ export class TTTGame extends PIXI.Application implements IGame {
 document.onreadystatechange = () => {
   if (document.readyState === 'complete') {
     window.TTT = new TTTGame(gameConfig);
+    GameFacade.Instance.initialize();
   }
 };
