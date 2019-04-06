@@ -5,8 +5,12 @@ export class Mediator<T> {
   public view: View;
   protected _viewComponent: T;
 
-  public onRegister(view: View) {
+  public onRegister(view: View): void {
     this.view = view;
+  }
+
+  public onRemove(): void {
+    // ...
   }
 
   public get facade(): Facade {

@@ -1,13 +1,22 @@
 import { Mediator } from './Mediator';
-import { SimpleMap } from '../utils/SimpleMap';
+import { Map } from '../utils/Map';
 
 export class StaticMediator<T> extends Mediator<T> {
-  public interests: SimpleMap<string, Function>;
+  public interests: Map<string, Function>;
 
   constructor() {
     super();
 
-    this.interests = new SimpleMap();
+    this.interests = new Map();
+  }
+
+  public onRemove(): void {
+    this._viewComponent &&
+      //@ts-ignore
+      this._viewComponent.removeAllListeners &&
+      //@ts-ignore
+      this._viewComponent.removeAllListeners();
+    super.onRemove();
   }
 
   public setViewComponent(viewComponent: T): void {

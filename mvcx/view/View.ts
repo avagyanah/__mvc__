@@ -1,19 +1,19 @@
 import { Facade } from '../Facade';
-import { SimpleMap } from '../utils/SimpleMap';
+import { Map } from '../utils/Map';
 import { StaticMediator } from './StaticMediator';
 import { DynamicMediator } from './DynamicMediator';
 
 export class View {
   public facade: Facade;
-  private __staticMediatorsMap: SimpleMap<string, StaticMediator<any>>;
-  private __dynamicMediatorsMap: SimpleMap<string, DynamicMediator<any>>;
-  private __eventsMap: SimpleMap<string, string[]>;
+  private __staticMediatorsMap: Map<string, StaticMediator<any>>;
+  private __dynamicMediatorsMap: Map<string, DynamicMediator<any>>;
+  private __eventsMap: Map<string, string[]>;
 
   constructor(facade: Facade) {
     this.facade = facade;
-    this.__staticMediatorsMap = new SimpleMap();
-    this.__dynamicMediatorsMap = new SimpleMap();
-    this.__eventsMap = new SimpleMap();
+    this.__staticMediatorsMap = new Map();
+    this.__dynamicMediatorsMap = new Map();
+    this.__eventsMap = new Map();
   }
 
   public registerStaticMediator(mediator: new () => StaticMediator<any>): void {
@@ -25,42 +25,57 @@ export class View {
   }
 
   public removeStaticMediator(key: string): void {
-    this.__staticMediatorsMap.delete(key);
-    this.__eventsMap.values.forEach((value: string[]) => {
-      value.splice(value.indexOf(key), 1);
-    });
-  }
-
-  public handleNotification(notification: string, ...args: any[]): void {
-    const events = this.__eventsMap.get(notification);
-
-    if (!events) {
+    if (!this.__staticMediatorsMap.has(key)) {
       return;
     }
 
-    events.forEach(e => {
-      const mediator = this.__staticMediatorsMap.get(e);
-      mediator.handleNotification(notification, ...args);
-    });
+    let mediator = this.__staticMediatorsMap.get(key);
+    this.__staticMediatorsMap.delete(key);
+
+    mediator.interests.keys.forEach((notification: string) =>
+      this.unsubscribe(notification, key),
+    );
+
+    mediator.onRemove();
+    mediator = null;
+  }
+
+  public handleNotification(notification: string, ...args: any[]): void {
+    if (this.__eventsMap.has(notification)) {
+      const names = this.__eventsMap.get(notification);
+      names.forEach((name: string) => {
+        const mediator = this.__staticMediatorsMap.get(name);
+        mediator.handleNotification(notification, ...args);
+      });
+    }
   }
 
   public subscribe(notification: string, mediatorName: string): void {
-    const events = this.__eventsMap.get(notification);
-    if (events) {
-      const existing = events.indexOf(mediatorName);
-      existing !== -1
-        ? (events[existing] = mediatorName)
-        : events.push(mediatorName);
-    } else {
+    if (!this.__eventsMap.has(notification)) {
       this.__eventsMap.set(notification, [mediatorName]);
+    } else {
+      const names = this.__eventsMap.get(notification);
+      const existing = names.indexOf(mediatorName);
+      if (existing !== -1) {
+        names[existing] = mediatorName;
+      } else {
+        names.push(mediatorName);
+      }
     }
   }
 
   public unsubscribe(notification: string, mediatorName: string): void {
-    let events = this.__eventsMap.get(notification);
-    const existing = events.indexOf(mediatorName);
+    if (!this.__eventsMap.has(notification)) {
+      return;
+    }
+
+    const names = this.__eventsMap.get(notification);
+    const existing = names.indexOf(mediatorName);
     if (existing !== -1) {
-      events.splice(existing, 1);
+      names.splice(existing, 1);
+      if (!names.length) {
+        this.__eventsMap.delete(notification);
+      }
     }
   }
 }

@@ -1,13 +1,13 @@
 import { Facade } from '../Facade';
-import { SimpleMap } from '../utils/SimpleMap';
+import { Map } from '../utils/Map';
 
 export class Controller {
-  private __commandsMap: SimpleMap<string, ICommand>;
+  private __commandsMap: Map<string, ICommand>;
   private __facade: Facade;
 
   constructor(facade: Facade) {
     this.__facade = facade;
-    this.__commandsMap = new SimpleMap();
+    this.__commandsMap = new Map();
   }
 
   public registerCommand(key: string, command: ICommand): void {
