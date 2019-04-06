@@ -5,5 +5,5 @@ export function LoadCompleteCommand(
   facade: Facade,
   notification: string,
 ): void {
-  facade.removeStaticMediator(PreloadSceneMediator.NAME);
+  facade.removeMediator(PreloadSceneMediator.NAME);
 }

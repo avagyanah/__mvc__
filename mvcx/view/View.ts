@@ -16,7 +16,7 @@ export class View {
     this.__eventsMap = new Map();
   }
 
-  public registerStaticMediator(mediator: new () => StaticMediator<any>): void {
+  public registerMediator(mediator: new () => StaticMediator<any>): void {
     const mediatorInstance = new mediator();
     //@ts-ignore
     const name = mediatorInstance.constructor.NAME;
@@ -24,7 +24,7 @@ export class View {
     mediatorInstance.onRegister(this);
   }
 
-  public removeStaticMediator(key: string): void {
+  public removeMediator(key: string): void {
     if (!this.__staticMediatorsMap.has(key)) {
       return;
     }
@@ -38,6 +38,14 @@ export class View {
 
     mediator.onRemove();
     mediator = null;
+  }
+
+  public retrieveMediator(key: string): StaticMediator<any> {
+    return this.__staticMediatorsMap.get(key);
+  }
+
+  public hasMediator(key: string): boolean {
+    return this.__staticMediatorsMap.has(key);
   }
 
   public handleNotification(notification: string, ...args: any[]): void {

@@ -26,12 +26,20 @@ export class Facade {
     return this.__controller.removeCommand(key);
   }
 
-  public registerStaticMediator(mediator: new () => StaticMediator<any>): void {
-    return this.__view.registerStaticMediator(mediator);
+  public registerMediator(mediator: new () => StaticMediator<any>): void {
+    return this.__view.registerMediator(mediator);
   }
 
-  public removeStaticMediator(key: string): void {
-    return this.__view.removeStaticMediator(key);
+  public removeMediator(key: string): void {
+    return this.__view.removeMediator(key);
+  }
+
+  public retrieveMediator(key: string): StaticMediator<any> {
+    return this.__view.retrieveMediator(key);
+  }
+
+  public hasMediator(key: string): boolean {
+    return this.__view.hasMediator(key);
   }
 
   public initialize() {

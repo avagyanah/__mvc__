@@ -17,7 +17,7 @@ export class Mediator<T> {
     return this.view.facade;
   }
 
-  public get getViewComponent(): any {
+  public get viewComponent(): any {
     return this._viewComponent;
   }
 }

@@ -31,8 +31,8 @@ export class GameFacade extends Facade {
   protected initializeView() {
     super.initializeView();
 
-    this.registerStaticMediator(PreloadSceneMediator);
-    this.registerStaticMediator(GameSceneMediator);
+    this.registerMediator(PreloadSceneMediator);
+    this.registerMediator(GameSceneMediator);
     // this.removeStaticMediator(GameSceneMediator.NAME);
     // this.removeStaticMediator(PreloadSceneMediator.NAME);
   }
