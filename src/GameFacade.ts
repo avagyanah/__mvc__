@@ -1,9 +1,10 @@
-import { Facade } from '../mvc/Facade';
+import { Facade } from '../mvcx/Facade';
 import { StartupCommand } from './command/StartupCommand';
 import { PreloadSceneMediator } from './view/scenes/PreloadSceneMediator';
 import { PreloadScene } from './view/scenes/PreloadScene';
 import { LoadProgressCommand } from './command/LoadProgressCommand';
 import { LoadCompleteCommand } from './command/LoadCompleteCommand';
+import { GameSceneMediator } from './view/scenes/GameSceneMediator';
 
 export class GameFacade extends Facade {
   static NAME: string = `GameFacade`;
@@ -37,8 +38,6 @@ export class GameFacade extends Facade {
     super.initializeView();
 
     this.registerStaticMediator(PreloadSceneMediator);
-    setTimeout(() => {
-      this.removeStaticMediator(PreloadSceneMediator.NAME);
-    }, 2000);
+    this.registerStaticMediator(GameSceneMediator);
   }
 }

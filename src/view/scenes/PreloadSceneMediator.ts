@@ -1,8 +1,10 @@
 import { BaseSceneMediator } from './BaseSceneMediator';
 import { PreloadScene } from './PreloadScene';
-import { View } from '../../../mvc/view/View';
+import { View } from '../../../mvcx/view/View';
 
 export class PreloadSceneMediator extends BaseSceneMediator<PreloadScene> {
+  static NAME: string = `PreloadSceneMediator`;
+
   constructor() {
     super();
   }
@@ -10,7 +12,10 @@ export class PreloadSceneMediator extends BaseSceneMediator<PreloadScene> {
   public onRegister(view: View): void {
     super.onRegister(view);
 
-    this.setViewComponent(window.TTT.sceneManager.get(PreloadScene.NAME));
+    this.setViewComponent(window.TTT.sceneManager.get(
+      PreloadScene.NAME,
+    ) as PreloadScene);
+
     this._viewComponent.on(
       PreloadScene.LOAD_PROGRESS_EVENT,
       this.__onLoadProgress,
@@ -21,6 +26,7 @@ export class PreloadSceneMediator extends BaseSceneMediator<PreloadScene> {
     );
 
     this.subscribe(PreloadScene.LOAD_COMPLETE_NOTIFICATION, this.__test);
+    // this.unsubscribe(PreloadScene.LOAD_COMPLETE_NOTIFICATION);
   }
 
   private __onLoadProgress = (progress: number) => {
@@ -31,12 +37,12 @@ export class PreloadSceneMediator extends BaseSceneMediator<PreloadScene> {
   };
 
   private __onLoadComplete = () => {
-    setInterval(() => {
-      this.facade.sendNotification(PreloadScene.LOAD_COMPLETE_NOTIFICATION);
-    }, 1000);
+    this.facade.sendNotification(PreloadScene.LOAD_COMPLETE_NOTIFICATION);
+    // setInterval(() => {
+    // }, 1000);
   };
 
   private __test = (progress: number) => {
-    console.log('load complete');
+    console.log('preload');
   };
 }
