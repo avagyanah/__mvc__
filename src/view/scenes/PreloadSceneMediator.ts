@@ -16,33 +16,26 @@ export class PreloadSceneMediator extends BaseSceneMediator<PreloadScene> {
       PreloadScene.NAME,
     ) as PreloadScene);
 
-    this._viewComponent.on(
-      PreloadScene.LOAD_PROGRESS_EVENT,
-      this.__onLoadProgress,
-    );
-    this._viewComponent.on(
-      PreloadScene.LOAD_COMPLETE_EVENT,
-      this.__onLoadComplete,
-    );
+    this._viewComponent.on('load-progress', this.__onLoadProgress);
+    this._viewComponent.on('load-complete', this.__onLoadComplete);
 
-    this.subscribe(PreloadScene.LOAD_COMPLETE_NOTIFICATION, this.__test);
-    // this.unsubscribe(PreloadScene.LOAD_COMPLETE_NOTIFICATION);
+    this.subscribe(PreloadScene.LOAD_PROGRESS, this.__loadProgress);
+    this.subscribe(PreloadScene.LOAD_COMPLETE, this.__loadComplete);
   }
 
   private __onLoadProgress = (progress: number) => {
-    this.facade.sendNotification(
-      PreloadScene.LOAD_PROGRESS_NOTIFICATION,
-      progress,
-    );
+    this.facade.sendNotification(PreloadScene.LOAD_PROGRESS, progress);
   };
 
   private __onLoadComplete = () => {
-    this.facade.sendNotification(PreloadScene.LOAD_COMPLETE_NOTIFICATION);
-    // setInterval(() => {
-    // }, 1000);
+    this.facade.sendNotification(PreloadScene.LOAD_COMPLETE, 3);
   };
 
-  private __test = (progress: number) => {
-    console.log('preload');
-  };
+  private __loadProgress(progress: number): void {
+    console.log(`preload LoadProgress | ${progress}`);
+  }
+
+  private __loadComplete(): void {
+    console.warn(`preload LoadComplete`);
+  }
 }

@@ -24,14 +24,8 @@ export class GameFacade extends Facade {
     super.initializeController();
 
     this.registerCommand(GameFacade.STARTUP, StartupCommand);
-    this.registerCommand(
-      PreloadScene.LOAD_PROGRESS_NOTIFICATION,
-      LoadProgressCommand,
-    );
-    this.registerCommand(
-      PreloadScene.LOAD_COMPLETE_NOTIFICATION,
-      LoadCompleteCommand,
-    );
+    this.registerCommand(PreloadScene.LOAD_PROGRESS, LoadProgressCommand);
+    this.registerCommand(PreloadScene.LOAD_COMPLETE, LoadCompleteCommand);
   }
 
   protected initializeView() {
@@ -39,5 +33,7 @@ export class GameFacade extends Facade {
 
     this.registerStaticMediator(PreloadSceneMediator);
     this.registerStaticMediator(GameSceneMediator);
+    // this.removeStaticMediator(PreloadSceneMediator.NAME);
+    this.removeStaticMediator(GameSceneMediator.NAME);
   }
 }

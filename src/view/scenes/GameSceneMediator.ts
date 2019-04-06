@@ -12,11 +12,15 @@ export class GameSceneMediator extends BaseSceneMediator<any> {
   public onRegister(view: View): void {
     super.onRegister(view);
 
-    this.subscribe(PreloadScene.LOAD_COMPLETE_NOTIFICATION, this.__test);
-    // this.unsubscribe(PreloadScene.LOAD_COMPLETE_NOTIFICATION);
+    this.subscribe(PreloadScene.LOAD_PROGRESS, this.__loadProgress);
+    this.subscribe(PreloadScene.LOAD_COMPLETE, this.__loadComplete);
   }
 
-  private __test = (progress: number) => {
-    console.log('game');
-  };
+  private __loadProgress(progress: number): void {
+    console.log(`game LoadProgress | ${progress}`);
+  }
+
+  private __loadComplete(): void {
+    console.warn(`game LoadComplete`);
+  }
 }
