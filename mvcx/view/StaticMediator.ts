@@ -2,12 +2,12 @@ import { Mediator } from './Mediator';
 import { Map } from '../utils/Map';
 
 export class StaticMediator<T> extends Mediator<T> {
-  public interests: Map<string, Function>;
+  public __interests: Map<string, Function>;
 
   constructor() {
     super();
 
-    this.interests = new Map();
+    this.__interests = new Map();
   }
 
   public onRemove(): void {
@@ -24,19 +24,23 @@ export class StaticMediator<T> extends Mediator<T> {
   }
 
   public subscribe(notification: string, callback: any): void {
-    this.interests.set(notification, callback);
+    this.__interests.set(notification, callback);
     //@ts-ignore
     return this.view.subscribe(notification, this.constructor.NAME);
   }
 
   public unsubscribe(notification: string): void {
-    this.interests.delete(notification);
+    this.__interests.delete(notification);
     //@ts-ignore
     return this.view.unsubscribe(notification, this.constructor.NAME);
   }
 
   public handleNotification(notification: string, ...args: any[]): void {
-    const callback = this.interests.get(notification);
+    const callback = this.__interests.get(notification);
     callback.call(this, ...args);
+  }
+
+  public get interests(): Map<string, Function> {
+    return this.__interests;
   }
 }

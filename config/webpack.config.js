@@ -79,6 +79,9 @@ const productionConfig = merge([
       minimizer: [
         new UglifyJsPlugin({
           uglifyOptions: {
+            mangle: {
+              properties: true,
+            },
             keep_fnames: true,
             compress: {
               drop_console: true,
