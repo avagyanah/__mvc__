@@ -16,9 +16,6 @@ export class PreloadSceneMediator extends BaseSceneMediator<PreloadScene> {
     this._viewComponent.on('load-complete', this.__onLoadComplete, this);
 
     this.subscribe(PreloadScene.LOAD_PROGRESS, this.__loadProgress);
-    this.subscribe(PreloadScene.LOAD_COMPLETE, this.__loadComplete);
-    // this.unsubscribe(PreloadScene.LOAD_COMPLETE);
-    // this.unsubscribe(PreloadScene.LOAD_PROGRESS);
   }
 
   private __onLoadProgress(progress: number): void {
@@ -31,9 +28,5 @@ export class PreloadSceneMediator extends BaseSceneMediator<PreloadScene> {
 
   private __loadProgress(progress: number): void {
     console.log(`preload LoadProgress | ${progress}`);
-  }
-
-  private __loadComplete(): void {
-    console.warn(`preload LoadComplete`);
   }
 }

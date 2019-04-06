@@ -8,17 +8,10 @@ export class GameSceneMediator extends BaseSceneMediator<any> {
   public onRegister(view: View): void {
     super.onRegister(view);
 
-    this.subscribe(PreloadScene.LOAD_PROGRESS, this.__loadProgress);
     this.subscribe(PreloadScene.LOAD_COMPLETE, this.__loadComplete);
-    // this.unsubscribe(PreloadScene.LOAD_COMPLETE);
-    // this.unsubscribe(PreloadScene.LOAD_PROGRESS);
-  }
-
-  private __loadProgress(progress: number): void {
-    console.log(`game LoadProgress | ${progress}`);
   }
 
   private __loadComplete(): void {
-    console.warn(`game LoadComplete`);
+    console.log(`game LoadComplete`);
   }
 }
