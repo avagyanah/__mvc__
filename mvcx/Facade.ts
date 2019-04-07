@@ -27,6 +27,12 @@ export class Facade {
   public removeMediator(key: string): void {
     return this.__view.removeMediator(key);
   }
+  public sleepMediator(key: string): void {
+    return this.__view.sleepMediator(key);
+  }
+  public wakeMediator(key: string): void {
+    return this.__view.wakeMediator(key);
+  }
   public retrieveMediator(key: string): StaticMediator<any> {
     return this.__view.retrieveMediator(key);
   }

@@ -23,6 +23,16 @@ export class StaticMediator<T> extends Mediator<T> {
     this.viewComponent = viewComponent;
   }
 
+  public sleep(): void {
+    //@ts-ignore
+    return this.view.sleepMediator(this.constructor.NAME);
+  }
+
+  public wake(): void {
+    //@ts-ignore
+    return this.view.wakeMediator(this.constructor.NAME);
+  }
+
   public subscribe(notification: string, callback: any): void {
     this.__interests.set(notification, callback);
     //@ts-ignore

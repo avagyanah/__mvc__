@@ -28,7 +28,7 @@ export class View {
   }
 
   public removeMediator(key: string): void {
-    if (!this.__staticMediatorsMap.has(key)) {
+    if (!this.hasMediator(key)) {
       return;
     }
 
@@ -43,6 +43,28 @@ export class View {
     mediator = null;
   }
 
+  public sleepMediator(key: string): void {
+    if (!this.hasMediator(key)) {
+      return;
+    }
+
+    let mediator = this.__staticMediatorsMap.get(key);
+    mediator.interests.keys.forEach((notification: string) =>
+      this.unsubscribe(notification, key),
+    );
+  }
+
+  public wakeMediator(key: string): void {
+    if (!this.hasMediator(key)) {
+      return;
+    }
+
+    let mediator = this.__staticMediatorsMap.get(key);
+    mediator.interests.keys.forEach((notification: string) =>
+      this.subscribe(notification, key),
+    );
+  }
+
   public retrieveMediator(key: string): StaticMediator<any> {
     return this.__staticMediatorsMap.get(key);
   }
@@ -52,7 +74,7 @@ export class View {
   }
 
   public handleNotification(notification: string, ...args: any[]): void {
-    if (this.__eventsMap.has(notification)) {
+    if (this.hasEvent(notification)) {
       const names = this.__eventsMap.get(notification);
       names.forEach((name: string) => {
         const mediator = this.__staticMediatorsMap.get(name);
@@ -62,7 +84,7 @@ export class View {
   }
 
   public subscribe(notification: string, mediatorName: string): void {
-    if (!this.__eventsMap.has(notification)) {
+    if (!this.hasEvent(notification)) {
       this.__eventsMap.set(notification, [mediatorName]);
     } else {
       const names = this.__eventsMap.get(notification);
@@ -76,7 +98,7 @@ export class View {
   }
 
   public unsubscribe(notification: string, mediatorName: string): void {
-    if (!this.__eventsMap.has(notification)) {
+    if (!this.hasEvent(notification)) {
       return;
     }
 
@@ -88,5 +110,9 @@ export class View {
         this.__eventsMap.delete(notification);
       }
     }
+  }
+
+  private hasEvent(key: string): boolean {
+    return this.__eventsMap.has(key);
   }
 }
