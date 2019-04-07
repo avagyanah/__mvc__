@@ -16,12 +16,15 @@ export class View {
     this.__eventsMap = new Map();
   }
 
-  public registerMediator(mediator: new () => StaticMediator<any>): void {
+  public registerMediator(
+    mediator: new () => StaticMediator<any>,
+  ): StaticMediator<any> {
     const mediatorInstance = new mediator();
     //@ts-ignore
     const name = mediatorInstance.constructor.NAME;
     this.__staticMediatorsMap.set(name, mediatorInstance);
     mediatorInstance.onRegister(this);
+    return mediatorInstance;
   }
 
   public removeMediator(key: string): void {

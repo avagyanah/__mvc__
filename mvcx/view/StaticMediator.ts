@@ -11,16 +11,16 @@ export class StaticMediator<T> extends Mediator<T> {
   }
 
   public onRemove(): void {
-    this._viewComponent &&
+    this.viewComponent &&
       //@ts-ignore
-      this._viewComponent.removeAllListeners &&
+      this.viewComponent.removeAllListeners &&
       //@ts-ignore
-      this._viewComponent.removeAllListeners();
+      this.viewComponent.removeAllListeners();
     super.onRemove();
   }
 
   public setViewComponent(viewComponent: T): void {
-    this._viewComponent = viewComponent;
+    this.viewComponent = viewComponent;
   }
 
   public subscribe(notification: string, callback: any): void {

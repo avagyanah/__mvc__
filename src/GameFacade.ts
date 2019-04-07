@@ -5,6 +5,7 @@ import { PreloadScene } from './view/scenes/PreloadScene';
 import { LoadProgressCommand } from './command/LoadProgressCommand';
 import { LoadCompleteCommand } from './command/LoadCompleteCommand';
 import { GameSceneMediator } from './view/scenes/GameSceneMediator';
+import { GameProxy } from './vo/GameProxy';
 
 export class GameFacade extends Facade {
   static NAME: string = `GameFacade`;
@@ -18,6 +19,8 @@ export class GameFacade extends Facade {
 
   protected initializeModel() {
     super.initializeModel();
+
+    this.registerProxy(GameProxy);
   }
 
   protected initializeController() {

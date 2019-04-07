@@ -19,8 +19,10 @@ export class Controller {
   }
 
   public executeCommand(key: string, ...args: any[]): void {
-    const command: ICommand = this.__commandsMap.get(key);
-    command && command(this.__facade, key, ...args);
+    if (!this.__commandsMap.has(key)) {
+      return;
+    }
+    this.__commandsMap.get(key)(this.__facade, key, ...args);
   }
 }
 

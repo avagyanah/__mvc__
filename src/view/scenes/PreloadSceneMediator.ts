@@ -12,8 +12,8 @@ export class PreloadSceneMediator extends BaseSceneMediator<PreloadScene> {
       PreloadScene.NAME,
     ) as PreloadScene);
 
-    this._viewComponent.on('load-progress', this.__onLoadProgress, this);
-    this._viewComponent.on('load-complete', this.__onLoadComplete, this);
+    this.viewComponent.on('load-progress', this.__onLoadProgress, this);
+    this.viewComponent.on('load-complete', this.__onLoadComplete, this);
 
     this.subscribe(PreloadScene.LOAD_PROGRESS, this.__loadProgress);
   }
@@ -23,7 +23,7 @@ export class PreloadSceneMediator extends BaseSceneMediator<PreloadScene> {
   }
 
   private __onLoadComplete(): void {
-    this.facade.sendNotification(PreloadScene.LOAD_COMPLETE, 3);
+    this.facade.sendNotification(PreloadScene.LOAD_COMPLETE);
   }
 
   private __loadProgress(progress: number): void {

@@ -3,7 +3,7 @@ import { View } from './View';
 
 export class Mediator<T> {
   public view: View;
-  protected _viewComponent: T;
+  private __viewComponent: T;
 
   public onRegister(view: View): void {
     this.view = view;
@@ -17,7 +17,11 @@ export class Mediator<T> {
     return this.view.facade;
   }
 
-  public get viewComponent(): any {
-    return this._viewComponent;
+  public get viewComponent(): T {
+    return this.__viewComponent;
+  }
+
+  public set viewComponent(value: T) {
+    this.__viewComponent = value;
   }
 }
