@@ -3,8 +3,8 @@ export default class SceneManager implements ISceneManager {
 
   constructor(private game: IGame) {}
 
-  public add(key: string, scene: new (game: IGame) => IScene): void {
-    this.scenesMap.set(key, new scene(this.game));
+  public add(scene: new (game: IGame) => IScene): void {
+    this.scenesMap.set(scene.name, new scene(this.game));
   }
 
   public get(key: string): IScene {

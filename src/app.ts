@@ -9,6 +9,7 @@ import ScaleManager from './utils/ScaleManager';
 import { PreloadScene } from './view/scenes/PreloadScene';
 import SceneManager from './view/scenes/SceneManager';
 import { GameFacade } from './GameFacade';
+import { GameScene } from './view/scenes/GameScene';
 
 export class TTTGame extends PIXI.Application implements IGame {
   public config: IGameConfig = gameConfig;
@@ -25,8 +26,9 @@ export class TTTGame extends PIXI.Application implements IGame {
 
   private prepareScenes(): void {
     this.sceneManager = new SceneManager(this);
-    this.sceneManager.add(PreloadScene.NAME, PreloadScene);
-    this.sceneManager.start(PreloadScene.NAME);
+    this.sceneManager.add(PreloadScene);
+    this.sceneManager.add(GameScene);
+    this.sceneManager.start(PreloadScene.name);
   }
 
   private prepareView(): void {

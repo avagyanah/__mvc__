@@ -3,6 +3,7 @@ import { View } from './view/View';
 import { Model } from './model/Model';
 import { StaticMediator } from './view/StaticMediator';
 import { Proxy } from './model/Proxy';
+import { BaseView } from './view/BaseView';
 
 export class Facade {
   private static _instance: Facade;
@@ -38,6 +39,13 @@ export class Facade {
   }
   public hasMediator(key: string): boolean {
     return this.__view.hasMediator(key);
+  }
+
+  public registerDynamicMediator(
+    view: new () => any,
+    mediator: new () => any,
+  ): void {
+    return this.__view.registerDynamicMediator(view, mediator);
   }
   //
   public removeProxy(key: string): void {

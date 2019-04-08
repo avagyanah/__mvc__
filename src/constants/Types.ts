@@ -20,7 +20,7 @@ export interface IScene {
 }
 //
 export interface ISceneManager {
-  add: (key: string, scene: any) => void;
+  add: (scene: any) => void;
   start: (key: string) => void;
   destroy: (key: string) => void;
   wake: (key: string) => void;

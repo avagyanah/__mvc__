@@ -6,10 +6,11 @@ import { LoadProgressCommand } from './command/LoadProgressCommand';
 import { LoadCompleteCommand } from './command/LoadCompleteCommand';
 import { GameSceneMediator } from './view/scenes/GameSceneMediator';
 import { GameProxy } from './vo/GameProxy';
+import { LogoView } from './view/components/LogoView';
+import { LogoMediator } from './view/components/LogoMediator';
 
 export class GameFacade extends Facade {
-  static NAME: string = `GameFacade`;
-  static STARTUP: string = `${GameFacade.NAME}Startup`;
+  static STARTUP: string = `${GameFacade.name}Startup`;
 
   public initialize() {
     super.initialize();
@@ -36,7 +37,6 @@ export class GameFacade extends Facade {
 
     this.registerMediator(PreloadSceneMediator);
     this.registerMediator(GameSceneMediator);
-    // this.removeStaticMediator(GameSceneMediator.NAME);
-    // this.removeStaticMediator(PreloadSceneMediator.NAME);
+    this.registerDynamicMediator(LogoView, LogoMediator);
   }
 }

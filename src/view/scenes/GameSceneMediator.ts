@@ -1,17 +1,14 @@
 import { BaseSceneMediator } from './BaseSceneMediator';
 import { View } from '../../../mvcx/view/View';
 import { PreloadScene } from './PreloadScene';
+import { GameScene } from './GameScene';
 
-export class GameSceneMediator extends BaseSceneMediator<any> {
-  static NAME: string = `GameSceneMediator`;
-
+export class GameSceneMediator extends BaseSceneMediator<GameScene> {
   public onRegister(view: View): void {
     super.onRegister(view);
 
-    this.subscribe(PreloadScene.LOAD_COMPLETE, this.__loadComplete);
-  }
-
-  private __loadComplete(): void {
-    console.log(`game LoadComplete`);
+    this.setViewComponent(window.TTT.sceneManager.get(
+      GameScene.name,
+    ) as PreloadScene);
   }
 }

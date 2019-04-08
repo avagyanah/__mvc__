@@ -12,8 +12,7 @@ export class Model {
 
   public registerProxy(proxy: new () => Proxy<any>): Proxy<any> {
     const proxyInstance = new proxy();
-    // @ts-ignore
-    const name = proxyInstance.constructor.NAME;
+    const name = proxyInstance.constructor.name;
     this.__proxiesMap.set(name, proxyInstance);
     proxyInstance.onRegister(this);
     return proxyInstance;

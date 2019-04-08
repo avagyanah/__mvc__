@@ -3,13 +3,11 @@ import { PreloadScene } from './PreloadScene';
 import { View } from '../../../mvcx/view/View';
 
 export class PreloadSceneMediator extends BaseSceneMediator<PreloadScene> {
-  static NAME: string = `PreloadSceneMediator`;
-
   public onRegister(view: View): void {
     super.onRegister(view);
 
     this.setViewComponent(window.TTT.sceneManager.get(
-      PreloadScene.NAME,
+      PreloadScene.name,
     ) as PreloadScene);
 
     this.viewComponent.on('load-progress', this.__onLoadProgress, this);

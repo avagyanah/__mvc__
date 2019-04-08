@@ -24,25 +24,21 @@ export class StaticMediator<T> extends Mediator<T> {
   }
 
   public sleep(): void {
-    //@ts-ignore
-    return this.view.sleepMediator(this.constructor.NAME);
+    return this.view.sleepMediator(this.constructor.name);
   }
 
   public wake(): void {
-    //@ts-ignore
-    return this.view.wakeMediator(this.constructor.NAME);
+    return this.view.wakeMediator(this.constructor.name);
   }
 
   public subscribe(notification: string, callback: any): void {
     this.__interests.set(notification, callback);
-    //@ts-ignore
-    return this.view.subscribe(notification, this.constructor.NAME);
+    return this.view.subscribe(notification, this.constructor.name);
   }
 
   public unsubscribe(notification: string): void {
     this.__interests.delete(notification);
-    //@ts-ignore
-    return this.view.unsubscribe(notification, this.constructor.NAME);
+    return this.view.unsubscribe(notification, this.constructor.name);
   }
 
   public handleNotification(notification: string, ...args: any[]): void {
