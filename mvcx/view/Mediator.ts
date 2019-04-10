@@ -1,6 +1,5 @@
 import { Facade } from '../Facade';
 import { View } from './View';
-import { EventEmitter } from 'events';
 
 export class Mediator<T> {
   public view: View;

@@ -2,12 +2,11 @@ import { Facade } from '../Facade';
 import { Map } from '../utils/Map';
 import { StaticMediator } from './StaticMediator';
 import { DynamicMediator } from './DynamicMediator';
-import { BaseView } from './BaseView';
 
 export class View {
   public facade: Facade;
   private __staticMediatorsMap: Map<string, StaticMediator<any>>;
-  private __dynamicMediatorsMap: Map<string, new () => DynamicMediator<any>>;
+  private __dynamicMediatorsMap: Map<string, DynamicMediator<any>>;
   private __eventsMap: Map<string, string[]>;
 
   constructor(facade: Facade) {
@@ -21,7 +20,23 @@ export class View {
     view: new () => any,
     mediator: new () => any,
   ): void {
-    this.__dynamicMediatorsMap.set(view.name, mediator);
+    view.prototype.construct = (viewInstance: any) => {
+      const mediatorInstance: DynamicMediator<any> = new mediator();
+      this.__dynamicMediatorsMap.set(
+        viewInstance.constructor.name,
+        mediatorInstance,
+      );
+      mediatorInstance.onRegister(this);
+    };
+
+    view.prototype.destruct = (viewInstance: any) => {
+      const mediatorInstance = this.__dynamicMediatorsMap.get(
+        viewInstance.constructor.name,
+      );
+      this.__dynamicMediatorsMap.delete(viewInstance.constructor.name);
+      mediatorInstance.onRemove();
+      mediator = null;
+    };
   }
 
   public registerMediator(
@@ -120,5 +135,19 @@ export class View {
 
   private __hasEvent(key: string): boolean {
     return this.__eventsMap.has(key);
+  }
+
+  private __onDynamicViewConstruct(
+    view: new () => any,
+    mediator: new () => any,
+  ): void {
+    console.warn('construct | ', this);
+  }
+
+  private __onDynamicViewDestruct(
+    view: new () => any,
+    mediator: new () => any,
+  ): void {
+    console.warn('destruct | ', this);
   }
 }

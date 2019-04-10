@@ -7,6 +7,8 @@ export function LoadCompleteCommand(
   facade: Facade,
   notification: string,
 ): void {
+  console.log(`load complete`);
+
   facade.removeMediator(PreloadSceneMediator.name);
   window.TTT.sceneManager.destroy(PreloadScene.name);
   window.TTT.sceneManager.start(GameScene.name);

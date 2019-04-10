@@ -5,5 +5,5 @@ export function LoadProgressCommand(
   notification: string,
   progress: number,
 ): void {
-  // console.warn(`LOAD PROGRESS | ${progress}`);
+  console.log(`load progress | ${progress}`);
 }

@@ -8,6 +8,8 @@ import { GameSceneMediator } from './view/scenes/GameSceneMediator';
 import { GameProxy } from './vo/GameProxy';
 import { LogoView } from './view/components/LogoView';
 import { LogoMediator } from './view/components/LogoMediator';
+import { ProfileView } from './view/components/ProfileView';
+import { ProfileMediator } from './view/components/ProfileMediator';
 
 export class GameFacade extends Facade {
   static STARTUP: string = `${GameFacade.name}Startup`;
@@ -38,5 +40,6 @@ export class GameFacade extends Facade {
     this.registerMediator(PreloadSceneMediator);
     this.registerMediator(GameSceneMediator);
     this.registerDynamicMediator(LogoView, LogoMediator);
+    this.registerDynamicMediator(ProfileView, ProfileMediator);
   }
 }
