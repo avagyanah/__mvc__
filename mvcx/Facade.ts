@@ -3,7 +3,6 @@ import { View } from './view/View';
 import { Model } from './model/Model';
 import { StaticMediator } from './view/StaticMediator';
 import { Proxy } from './model/Proxy';
-import { BaseView } from './view/BaseView';
 
 export class Facade {
   private static _instance: Facade;

@@ -10,6 +10,7 @@ import { LogoView } from './view/components/LogoView';
 import { LogoMediator } from './view/components/LogoMediator';
 import { ProfileView } from './view/components/ProfileView';
 import { ProfileMediator } from './view/components/ProfileMediator';
+import { UpdateScoreCommand } from './command/UpdateScoreCommand';
 
 export class GameFacade extends Facade {
   static STARTUP: string = `${GameFacade.name}Startup`;

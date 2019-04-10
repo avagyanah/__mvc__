@@ -1,4 +1,4 @@
-import { BaseView } from '../../../mvcx/view/BaseView';
+import { BaseView } from './BaseView';
 
 export class LogoView extends BaseView {
   constructor() {
