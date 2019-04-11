@@ -1,5 +1,6 @@
 import { Facade } from '../Facade';
 import { Proxy } from './Proxy';
+import { Map } from '../utils/Map';
 
 export class Model {
   public facade: Facade;

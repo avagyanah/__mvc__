@@ -1,4 +1,3 @@
-import { Atlases, Audios, Images } from '../../assets';
 import { IGame } from '../../constants/Types';
 import BaseScene from './BaseScene';
 import { LogoView } from '../components/LogoView';
@@ -16,8 +15,12 @@ export class GameScene extends BaseScene {
 
     const logoView: LogoView = new LogoView();
     const profileView: ProfileView = new ProfileView();
+    const logoView2: LogoView = new LogoView();
 
     logoView.destroy();
     profileView.destroy();
+    // new LogoView();
+    // new ProfileView();
+    // new LogoView();
   }
 }

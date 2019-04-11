@@ -10,7 +10,5 @@ export class GameSceneMediator extends BaseSceneMediator<GameScene> {
     this.setViewComponent(window.TTT.sceneManager.get(
       GameScene.name,
     ) as PreloadScene);
-
-    console.warn('register');
   }
 }

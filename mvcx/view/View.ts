@@ -2,6 +2,7 @@ import { Facade } from '../Facade';
 import { Map } from '../utils/Map';
 import { StaticMediator } from './StaticMediator';
 import { DynamicMediator } from './DynamicMediator';
+import { uuid } from '../utils/uuid';
 
 export class View {
   public facade: Facade;
@@ -20,20 +21,17 @@ export class View {
     view: new () => any,
     mediator: new () => any,
   ): void {
+    const uniqueID = uuid(view.name);
+
     view.prototype.construct = (viewInstance: any) => {
       const mediatorInstance: DynamicMediator<any> = new mediator();
-      this.__dynamicMediatorsMap.set(
-        viewInstance.constructor.name,
-        mediatorInstance,
-      );
+      this.__dynamicMediatorsMap.set(uniqueID, mediatorInstance);
       mediatorInstance.onRegister(this);
     };
 
     view.prototype.destruct = (viewInstance: any) => {
-      const mediatorInstance = this.__dynamicMediatorsMap.get(
-        viewInstance.constructor.name,
-      );
-      this.__dynamicMediatorsMap.delete(viewInstance.constructor.name);
+      const mediatorInstance = this.__dynamicMediatorsMap.get(uniqueID);
+      this.__dynamicMediatorsMap.delete(uniqueID);
       mediatorInstance.onRemove();
       mediator = null;
     };
