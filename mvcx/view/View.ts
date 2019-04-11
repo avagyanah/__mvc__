@@ -21,17 +21,17 @@ export class View {
     view: new () => any,
     mediator: new () => any,
   ): void {
-    const uniqueID = uuid(view.name);
-
     view.prototype.construct = (viewInstance: any) => {
+      // viewInstance  as key in non simple map
       const mediatorInstance: DynamicMediator<any> = new mediator();
-      this.__dynamicMediatorsMap.set(uniqueID, mediatorInstance);
+      this.__dynamicMediatorsMap.set(view.name, mediatorInstance);
       mediatorInstance.onRegister(this);
     };
 
     view.prototype.destruct = (viewInstance: any) => {
-      const mediatorInstance = this.__dynamicMediatorsMap.get(uniqueID);
-      this.__dynamicMediatorsMap.delete(uniqueID);
+      // viewInstance  as key in non simple map
+      const mediatorInstance = this.__dynamicMediatorsMap.get(view.name);
+      this.__dynamicMediatorsMap.delete(view.name);
       mediatorInstance.onRemove();
       mediator = null;
     };

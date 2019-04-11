@@ -1,5 +1,4 @@
 export class BaseView extends PIXI.DisplayObject {
-  static CREATE: string = 'create';
   constructor() {
     super();
     //@ts-ignore
