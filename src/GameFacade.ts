@@ -37,10 +37,6 @@ export class GameFacade extends Facade {
 
     this.registerMediator(PreloadSceneMediator);
     this.registerMediator(GameSceneMediator);
-    // this.sleepMediator(GameSceneMediator);
-    // this.wakeMediator(GameSceneMediator);
-    // this.removeMediator(GameSceneMediator);
-    // this.registerMediator(GameSceneMediator);
 
     this.registerDynamicMediator(LogoView, LogoMediator);
   }
