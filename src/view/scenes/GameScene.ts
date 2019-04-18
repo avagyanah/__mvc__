@@ -12,8 +12,9 @@ export class GameScene extends BaseScene {
   public create(): void {
     super.create();
 
-    // const logoView1: LogoView = new LogoView('12345');
+    new LogoView();
     // const logoView2: LogoView = new LogoView();
+    // const logoView1: LogoView = new LogoView();
     // const logoView3: LogoView = new LogoView();
 
     // logoView1.destroy();

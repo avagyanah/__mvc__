@@ -10,9 +10,8 @@ export function logCommand(
 export function logNotification(
   consoleArgs: string[],
   notificationName: string,
-  ...args: any[]
 ): void {
-  consoleArgs[0] = `%c %c %c ${notificationName}: args [ ${args} ] %c %c `;
+  consoleArgs[0] = `%c %c %c ${notificationName}%c %c `;
   console.log.apply(console, consoleArgs);
 }
 

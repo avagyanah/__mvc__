@@ -36,8 +36,6 @@ export class PreloadScene extends BaseScene {
   }
 
   private onInitialAssetsLoadComplete(loader: PIXI.loaders.Loader): void {
-    new LogoView('12345');
-
     this.emit('load-complete');
   }
 }

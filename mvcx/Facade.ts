@@ -3,19 +3,30 @@ import { View } from './view/View';
 import { Model } from './model/Model';
 import { Mediator } from './view/Mediator';
 import { Proxy } from './model/Proxy';
+import { logNone, logNotification } from './utils';
 
 export class Facade {
+  private static readonly _consoleArgs: string[] = [
+    '',
+    `background: ${'#757130'}`,
+    `background: ${'#DED434'}`,
+    `color: ${'#2F2E15'}; background: ${'#FFF325'};`,
+    `background: ${'#DED434'}`,
+    `background: ${'#757130'}`,
+  ];
   private static __instance: Facade;
   private __controller: Controller;
   private __model: Model;
   private __view: View;
   private __debug: boolean;
+  private __logger: (consoleArgs: string[], notificationName: string) => void;
 
   public static get Instance() {
     return this.__instance || (this.__instance = new this());
   }
 
   public sendNotification(notification: string, ...args: any[]) {
+    this.__logger(Facade._consoleArgs, notification);
     this.__controller.executeCommand(notification, ...args);
     this.__view.handleNotification(notification, ...args);
   }
@@ -67,6 +78,7 @@ export class Facade {
   //
   public initialize(debug: boolean) {
     this.__debug = debug;
+    this.__logger = this.__debug ? logNotification : logNone;
     this.initializeController();
     this.initializeModel();
     this.initializeView();

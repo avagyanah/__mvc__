@@ -19,6 +19,7 @@ export class TTTGame extends PIXI.Application implements IGame {
   constructor(config: IGameConfig) {
     super(config);
     this.config = config;
+
     //
     this.prepareView();
     this.prepareScenes();
