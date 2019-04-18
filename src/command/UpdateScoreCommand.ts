@@ -1,9 +1,8 @@
-import { Facade } from '../../mvcx/Facade';
 import { GameProxy } from '../vo/GameProxy';
 import { GameVO } from '../vo/GameVO';
 
-export function UpdateScoreCommand(facade: Facade, notification: string): void {
-  const gameProxy: GameProxy = facade.retrieveProxy(GameProxy.name);
+export function UpdateScoreCommand(notification: string): void {
+  const gameProxy: GameProxy = this.retrieveProxy(GameProxy);
   const gameVO: GameVO = gameProxy.vo;
   gameVO.someProp = 1;
 }

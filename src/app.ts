@@ -44,6 +44,6 @@ export class TTTGame extends PIXI.Application implements IGame {
 document.onreadystatechange = () => {
   if (document.readyState === 'complete') {
     window.TTT = new TTTGame(gameConfig);
-    GameFacade.Instance.initialize();
+    GameFacade.Instance.initialize(true);
   }
 };

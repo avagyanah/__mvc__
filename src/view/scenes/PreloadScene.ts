@@ -1,6 +1,7 @@
 import { Atlases, Audios, Images } from '../../assets';
 import { IGame } from '../../constants/Types';
 import BaseScene from './BaseScene';
+import { LogoView } from '../components/LogoView';
 //
 export let GENERAL_ASSETS: PIXI.loaders.TextureDictionary;
 //
@@ -35,6 +36,8 @@ export class PreloadScene extends BaseScene {
   }
 
   private onInitialAssetsLoadComplete(loader: PIXI.loaders.Loader): void {
+    new LogoView('12345');
+
     this.emit('load-complete');
   }
 }

@@ -1,27 +1,23 @@
+import { uuid } from '../../../mvcx/utils';
+
 export class BaseView extends PIXI.DisplayObject {
-  constructor() {
+  private __uuid: string;
+  constructor(id: string) {
     super();
-    //@ts-ignore
-    this.construct(this);
+    this.__uuid = id || uuid(this.constructor.name);
+    this.construct();
   }
 
   public destroy(): void {
     super.destroy();
-    //@ts-ignore
-    this.destruct(this);
+    this.destruct();
+  }
+
+  public construct(): void {}
+
+  public destruct(): void {}
+
+  public get uuid(): string {
+    return this.__uuid;
   }
 }
-
-Object.defineProperty(BaseView.prototype, 'construct', {
-  value: function() {},
-  configurable: true,
-  writable: true,
-  enumerable: false,
-});
-
-Object.defineProperty(BaseView.prototype, 'destruct', {
-  value: function() {},
-  configurable: true,
-  writable: true,
-  enumerable: false,
-});

@@ -1,10 +1,14 @@
 import { BaseSceneMediator } from './BaseSceneMediator';
 import { PreloadScene } from './PreloadScene';
 import { View } from '../../../mvcx/view/View';
+import { Facade } from '../../../mvcx/Facade';
 
 export class PreloadSceneMediator extends BaseSceneMediator<PreloadScene> {
-  public onRegister(view: View): void {
-    super.onRegister(view);
+  public onRegister(
+    facade: Facade,
+    onMediatorNotificationSubscriptionChange: any,
+  ): void {
+    super.onRegister(facade, onMediatorNotificationSubscriptionChange);
 
     this.setViewComponent(window.TTT.sceneManager.get(
       PreloadScene.name,

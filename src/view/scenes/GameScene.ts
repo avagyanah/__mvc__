@@ -12,22 +12,12 @@ export class GameScene extends BaseScene {
   public create(): void {
     super.create();
 
-    // new LogoView();
-    // new LogoView();
-    // new LogoView();
-    const logoView1: LogoView = new LogoView();
-    const logoView2: LogoView = new LogoView();
-    const logoView3: LogoView = new LogoView();
+    // const logoView1: LogoView = new LogoView('12345');
+    // const logoView2: LogoView = new LogoView();
+    // const logoView3: LogoView = new LogoView();
 
-    logoView1.destroy();
-    logoView2.destroy();
-    logoView3.destroy();
-    // const profileView: ProfileView = new ProfileView();
-
-    // logoView.destroy();
-    // profileView.destroy();
-    // new LogoView();
-    // new ProfileView();
-    // new LogoView();
+    // logoView1.destroy();
+    // logoView2.destroy();
+    // logoView3.destroy();
   }
 }

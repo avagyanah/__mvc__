@@ -1,41 +1,43 @@
 import { Facade } from '../Facade';
 import { Proxy } from './Proxy';
-import { Map } from '../utils/Map';
+import { MVCMap } from '../utils';
 
 export class Model {
-  public facade: Facade;
-  private __proxiesMap: Map<string, Proxy<any>>;
+  private __facade: Facade;
+  private __proxiesMap: MVCMap<Proxy<any>>;
 
   constructor(facade: Facade) {
-    this.facade = facade;
-    this.__proxiesMap = new Map();
+    this.__facade = facade;
+    this.__proxiesMap = new MVCMap();
   }
 
   public registerProxy(proxy: new () => Proxy<any>): Proxy<any> {
     const proxyInstance = new proxy();
     const name = proxyInstance.constructor.name;
     this.__proxiesMap.set(name, proxyInstance);
-    proxyInstance.onRegister(this);
+    proxyInstance.onRegister(this.__facade);
     return proxyInstance;
   }
 
-  public removeProxy(key: string): void {
-    if (!this.__proxiesMap.has(key)) {
+  public removeProxy(proxy: new () => Proxy<any>): void {
+    if (!this.hasProxy(proxy)) {
       return;
     }
 
-    let proxy = this.__proxiesMap.get(key);
+    const key = proxy.name;
+    let proxyInstance = this.__proxiesMap.get(key);
     this.__proxiesMap.delete(key);
 
-    proxy.onRemove();
-    proxy = null;
+    proxyInstance.onRemove();
   }
 
-  public hasProxy(key: string): boolean {
+  public hasProxy(proxy: new () => Proxy<any>): boolean {
+    const key = proxy.name;
     return this.__proxiesMap.has(key);
   }
 
-  public retrieveProxy(key: string): Proxy<any> {
+  public retrieveProxy(proxy: new () => Proxy<any>): Proxy<any> {
+    const key = proxy.name;
     return this.__proxiesMap.get(key);
   }
 }

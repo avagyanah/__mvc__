@@ -1,13 +1,29 @@
 import { Facade } from '../Facade';
-import { Map } from '../utils/Map';
+import { MVCMap } from '../utils';
+import { logCommand, logNone } from '../utils';
 
 export class Controller {
-  private __commandsMap: Map<string, ICommand>;
+  private static readonly _consoleArgs = [
+    '',
+    `background: ${'#3F234E'}`,
+    `background: ${'#6E2994'}`,
+    `color: ${'#D4BFE0'}; background: ${'#8724BD'};`,
+    `background: ${'#6E2994'}`,
+    `background: ${'#3F234E'}`,
+  ];
+
+  private __commandsMap: MVCMap<ICommand>;
   private __facade: Facade;
+  private __logger: (
+    consoleArgs: string[],
+    notificationName: string,
+    commandName: string,
+  ) => void;
 
   constructor(facade: Facade) {
     this.__facade = facade;
-    this.__commandsMap = new Map();
+    this.__logger = this.__facade.debug ? logCommand : logNone;
+    this.__commandsMap = new MVCMap();
   }
 
   public registerCommand(key: string, command: ICommand): void {
@@ -19,13 +35,15 @@ export class Controller {
   }
 
   public executeCommand(key: string, ...args: any[]): void {
-    if (!this.__commandsMap.has(key)) {
+    const command = this.__commandsMap.get(key);
+    if (!command) {
       return;
     }
-    this.__commandsMap.get(key)(this.__facade, key, ...args);
+    this.__logger(Controller._consoleArgs, key, command.name);
+    command.call(this.__facade, key, ...args);
   }
 }
 
 export interface ICommand {
-  (facade: Facade, notification: string, ...args: any[]): void;
+  (notification: string, ...args: any[]): void;
 }

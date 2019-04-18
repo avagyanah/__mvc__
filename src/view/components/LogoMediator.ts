@@ -1,10 +1,13 @@
-import { DynamicMediator } from '../../../mvcx/view/DynamicMediator';
 import { LogoView } from './LogoView';
-import { View } from '../../../mvcx/view/View';
+import { Facade } from '../../../mvcx/Facade';
+import { DynamicMediator } from '../../../mvcx/view/DynamicMediator';
 
 export class LogoMediator extends DynamicMediator<LogoView> {
-  public onRegister(view: View): void {
-    super.onRegister(view);
+  public onRegister(
+    facade: Facade,
+    onMediatorNotificationSubscriptionChange: any,
+  ): void {
+    super.onRegister(facade, onMediatorNotificationSubscriptionChange);
   }
 
   public onRemove(): void {

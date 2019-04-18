@@ -1,102 +1,108 @@
 import { Facade } from '../Facade';
-import { Map } from '../utils/Map';
-import { StaticMediator } from './StaticMediator';
-import { DynamicMediator } from './DynamicMediator';
-import { uuid } from '../utils/uuid';
+import { MVCMap } from '../utils';
+import { Mediator } from './Mediator';
+import { uuid } from '../utils';
 
 export class View {
-  public facade: Facade;
-  private __staticMediatorsMap: Map<string, StaticMediator<any>>;
-  private __dynamicMediatorsMap: Map<string, DynamicMediator<any>>;
-  private __eventsMap: Map<string, string[]>;
+  private __facade: Facade;
+  private __mediatorsMap: MVCMap<Mediator<any>>;
+  private __eventsMap: MVCMap<string[]>;
 
   constructor(facade: Facade) {
-    this.facade = facade;
-    this.__staticMediatorsMap = new Map();
-    this.__dynamicMediatorsMap = new Map();
-    this.__eventsMap = new Map();
+    this.__facade = facade;
+    this.__mediatorsMap = new MVCMap();
+    this.__eventsMap = new MVCMap();
   }
 
   public registerDynamicMediator(
-    view: new () => any,
+    view: new (...args: any[]) => IDynamicView,
     mediator: new () => any,
   ): void {
-    view.prototype.construct = (viewInstance: any) => {
-      // viewInstance  as key in non simple map
-      const mediatorInstance: DynamicMediator<any> = new mediator();
-      this.__dynamicMediatorsMap.set(view.name, mediatorInstance);
-      mediatorInstance.onRegister(this);
+    const self = this;
+    view.prototype.construct = function() {
+      const mediatorInstance: Mediator<any> = new mediator();
+      self.__mediatorsMap.set(this.uuid, mediatorInstance);
+
+      //@ts-ignore
+      mediatorInstance.setViewComponent(this);
+      mediatorInstance.onRegister(
+        self.__facade,
+        self.__onMediatorNotificationSubscriptionChange,
+      );
     };
 
-    view.prototype.destruct = (viewInstance: any) => {
-      // viewInstance  as key in non simple map
-      const mediatorInstance = this.__dynamicMediatorsMap.get(view.name);
-      this.__dynamicMediatorsMap.delete(view.name);
+    view.prototype.destruct = function() {
+      const mediatorInstance = self.__mediatorsMap.delete(this.uuid);
       mediatorInstance.onRemove();
-      mediator = null;
     };
   }
 
-  public registerMediator(
-    mediator: new () => StaticMediator<any>,
-  ): StaticMediator<any> {
+  private __onMediatorNotificationSubscriptionChange = (
+    notification: string,
+    mediatorName: string,
+    subscribe: boolean,
+  ) => {
+    subscribe
+      ? this.subscribe(notification, mediatorName)
+      : this.unsubscribe(notification, mediatorName);
+  };
+
+  public registerMediator(mediator: new () => Mediator<any>): Mediator<any> {
     const mediatorInstance = new mediator();
     const name = mediatorInstance.constructor.name;
-    this.__staticMediatorsMap.set(name, mediatorInstance);
-    mediatorInstance.onRegister(this);
+    this.__mediatorsMap.set(name, mediatorInstance);
+    mediatorInstance.onRegister(
+      this.__facade,
+      this.__onMediatorNotificationSubscriptionChange,
+    );
     return mediatorInstance;
   }
 
-  public removeMediator(key: string): void {
-    if (!this.hasMediator(key)) {
+  public removeMediator(mediator: new () => Mediator<any>): void {
+    if (!this.hasMediator(mediator)) {
       return;
     }
 
-    let mediator = this.__staticMediatorsMap.get(key);
-    mediator.interests.keys.forEach((notification: string) =>
-      this.unsubscribe(notification, key),
-    );
+    const key = mediator.name;
+    let mediatorInstance = this.__mediatorsMap.get(key);
 
-    this.__staticMediatorsMap.delete(key);
-    mediator.onRemove();
-    mediator = null;
+    this.__mediatorsMap.delete(key);
+    mediatorInstance.onRemove();
   }
 
-  public sleepMediator(key: string): void {
-    if (!this.hasMediator(key)) {
+  public sleepMediator(mediator: new () => Mediator<any>): void {
+    if (!this.hasMediator(mediator)) {
       return;
     }
 
-    let mediator = this.__staticMediatorsMap.get(key);
-    mediator.interests.keys.forEach((notification: string) =>
-      this.unsubscribe(notification, key),
-    );
+    const key = mediator.name;
+    let mediatorInstance = this.__mediatorsMap.get(key);
+    mediatorInstance.onSleep();
   }
 
-  public wakeMediator(key: string): void {
-    if (!this.hasMediator(key)) {
+  public wakeMediator(mediator: new () => Mediator<any>): void {
+    if (!this.hasMediator(mediator)) {
       return;
     }
 
-    let mediator = this.__staticMediatorsMap.get(key);
-    mediator.interests.keys.forEach((notification: string) =>
-      this.subscribe(notification, key),
-    );
+    const key = mediator.name;
+    let mediatorInstance = this.__mediatorsMap.get(key);
+    mediatorInstance.onWake();
   }
 
-  public retrieveMediator(key: string): StaticMediator<any> {
-    return this.__staticMediatorsMap.get(key);
+  public retrieveMediator(mediator: new () => Mediator<any>): Mediator<any> {
+    return this.__mediatorsMap.get(mediator.name);
   }
 
-  public hasMediator(key: string): boolean {
-    return this.__staticMediatorsMap.has(key);
+  public hasMediator(mediator: new () => Mediator<any>): boolean {
+    return this.__mediatorsMap.has(mediator.name);
   }
 
   public handleNotification(notification: string, ...args: any[]): void {
     if (this.__hasEvent(notification)) {
       const names = this.__eventsMap.get(notification);
       names.forEach((name: string) => {
-        const mediator = this.__staticMediatorsMap.get(name);
+        const mediator = this.__mediatorsMap.get(name);
         mediator.handleNotification(notification, ...args);
       });
     }
@@ -134,18 +140,10 @@ export class View {
   private __hasEvent(key: string): boolean {
     return this.__eventsMap.has(key);
   }
+}
 
-  private __onDynamicViewConstruct(
-    view: new () => any,
-    mediator: new () => any,
-  ): void {
-    console.warn('construct | ', this);
-  }
-
-  private __onDynamicViewDestruct(
-    view: new () => any,
-    mediator: new () => any,
-  ): void {
-    console.warn('destruct | ', this);
-  }
+export interface IDynamicView {
+  construct: () => void;
+  destruct: () => void;
+  uuid: string;
 }
